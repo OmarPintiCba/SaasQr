@@ -2,498 +2,19 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>HuapiAlert — SaaS para distribuidoras de agua</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-<style>
-:root{
-  --bg:#04111f;
-  --bg2:#071828;
-  --card:#0a1f35;
-  --border:rgba(0,180,255,0.12);
-  --blue:#0ea5e9;
-  --blue2:#0369a1;
-  --teal:#14b8a6;
-  --green:#22c55e;
-  --text:#e2f0ff;
-  --muted:#5a8aaa;
-  --danger:#ef4444;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
-
-/* ── Screens ── */
-.screen{display:none;min-height:100vh}
-.screen.active{display:block}
-
-/* ── Nav ── */
-nav{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;border-bottom:1px solid var(--border);background:rgba(4,17,31,0.9);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100}
-.logo{font-size:20px;font-weight:900;letter-spacing:-0.5px;color:var(--text)}
-.logo span{color:var(--blue)}
-.nav-btns{display:flex;gap:12px}
-
-/* ── Buttons ── */
-.btn{border:none;border-radius:10px;padding:11px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;display:inline-block;text-decoration:none;text-align:center}
-.btn:active{transform:scale(.97)}
-.btn-primary{background:var(--blue);color:#fff;box-shadow:0 4px 20px rgba(14,165,233,.35)}
-.btn-primary:hover{background:#38bdf8}
-.btn-outline{background:transparent;color:var(--blue);border:1.5px solid var(--blue)}
-.btn-outline:hover{background:rgba(14,165,233,.08)}
-.btn-ghost{background:rgba(255,255,255,0.06);color:var(--text);border:1px solid var(--border)}
-.btn-ghost:hover{background:rgba(255,255,255,0.1)}
-.btn-green{background:var(--green);color:#fff;box-shadow:0 4px 20px rgba(34,197,94,.3)}
-.btn-green:hover{background:#4ade80}
-.btn-danger{background:var(--danger);color:#fff}
-.btn-block{width:100%;display:block}
-.btn-lg{padding:15px 28px;font-size:16px;border-radius:12px}
-
-/* ── Hero ── */
-.hero{padding:100px 40px 80px;text-align:center;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(14,165,233,.15) 0%,transparent 70%);pointer-events:none}
-.hero h1{font-size:clamp(36px,5vw,64px);font-weight:900;line-height:1.1;letter-spacing:-2px;margin-bottom:20px}
-.hero h1 em{font-style:normal;color:var(--blue)}
-.hero p{color:var(--muted);font-size:18px;max-width:540px;margin:0 auto 40px;line-height:1.7}
-.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-.badge{display:inline-block;background:rgba(14,165,233,.12);color:var(--blue);border:1px solid rgba(14,165,233,.25);border-radius:999px;padding:6px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:24px}
-
-/* ── How it works ── */
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;max-width:900px;margin:60px auto;padding:0 40px}
-.step{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;text-align:center}
-.step-num{width:40px;height:40px;border-radius:50%;background:rgba(14,165,233,.15);color:var(--blue);font-weight:900;font-size:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
-.step h3{font-size:15px;font-weight:700;margin-bottom:8px}
-.step p{color:var(--muted);font-size:13px;line-height:1.6}
-
-/* ── Pricing ── */
-.pricing-section{padding:60px 40px;text-align:center}
-.pricing-section h2{font-size:36px;font-weight:900;letter-spacing:-1px;margin-bottom:8px}
-.pricing-section>.sub{color:var(--muted);font-size:15px;margin-bottom:40px}
-.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:860px;margin:0 auto}
-.plan{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;text-align:left;position:relative;transition:transform .2s}
-.plan:hover{transform:translateY(-4px)}
-.plan.featured{border-color:var(--blue);background:linear-gradient(145deg,#0a1f35,#0d2847)}
-.plan-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;border-radius:999px;padding:4px 16px;font-size:11px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
-.plan-name{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;margin-bottom:12px}
-.plan-price{font-size:42px;font-weight:900;letter-spacing:-2px;margin-bottom:4px}
-.plan-price span{font-size:16px;font-weight:400;color:var(--muted)}
-.plan-desc{color:var(--muted);font-size:13px;margin-bottom:24px;line-height:1.5}
-.plan-features{list-style:none;margin-bottom:28px}
-.plan-features li{padding:8px 0;font-size:14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
-.plan-features li:last-child{border:none}
-.plan-features li::before{content:'✓';color:var(--teal);font-weight:900;font-size:12px}
-
-/* ── Auth forms ── */
-.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;position:relative}
-.auth-wrap::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 50%,rgba(14,165,233,.08),transparent 60%)}
-.auth-card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:40px;width:100%;max-width:440px;position:relative;z-index:1}
-.auth-card h2{font-size:26px;font-weight:900;letter-spacing:-0.5px;margin-bottom:6px}
-.auth-card .sub{color:var(--muted);font-size:14px;margin-bottom:32px}
-.field{margin-bottom:18px}
-.field label{display:block;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
-.field input,.field select{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text);font-size:15px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
-.field input:focus,.field select:focus{border-color:var(--blue)}
-.field input::placeholder{color:var(--muted)}
-.field select option{background:#0a1f35}
-.auth-switch{text-align:center;margin-top:20px;font-size:14px;color:var(--muted)}
-.auth-switch a{color:var(--blue);text-decoration:none;font-weight:700;cursor:pointer}
-.err{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#fca5a5;margin-bottom:16px;display:none}
-.plan-select{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
-.plan-opt{border:1.5px solid var(--border);border-radius:10px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .15s}
-.plan-opt.selected{border-color:var(--blue);background:rgba(14,165,233,.1)}
-.plan-opt .pname{font-size:12px;font-weight:700;color:var(--muted);display:block}
-.plan-opt .pprice{font-size:16px;font-weight:900;color:var(--text)}
-
-/* ── Dashboard ── */
-.dash-layout{display:flex;min-height:100vh}
-.sidebar{width:240px;background:var(--bg2);border-right:1px solid var(--border);padding:24px 16px;flex-shrink:0;display:flex;flex-direction:column}
-.sidebar-logo{font-size:18px;font-weight:900;padding:8px 12px;margin-bottom:32px}
-.sidebar-logo span{color:var(--blue)}
-.sidebar-menu{flex:1}
-.sidebar-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;margin-bottom:4px}
-.sidebar-item:hover{background:rgba(255,255,255,0.05);color:var(--text)}
-.sidebar-item.active{background:rgba(14,165,233,.12);color:var(--blue)}
-.sidebar-item .icon{font-size:18px;width:24px;text-align:center}
-.sidebar-bottom{padding-top:16px;border-top:1px solid var(--border)}
-.user-badge{display:flex;align-items:center;gap:10px;padding:10px 12px}
-.user-avatar{width:34px;height:34px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;flex-shrink:0}
-.user-info .uname{font-size:13px;font-weight:700}
-.user-info .uemail{font-size:11px;color:var(--muted)}
-
-.dash-main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-.dash-header{padding:24px 32px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.dash-header h2{font-size:22px;font-weight:900;letter-spacing:-0.5px}
-.dash-content{padding:32px;flex:1;overflow-y:auto}
-
-/* ── Stats ── */
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:32px}
-.stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px}
-.stat-val{font-size:32px;font-weight:900;letter-spacing:-1px}
-.stat-label{font-size:12px;color:var(--muted);font-weight:600;margin-top:4px}
-
-/* ── Dispensers grid ── */
-.disp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-.disp-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;transition:transform .15s,border-color .15s}
-.disp-card:hover{transform:translateY(-2px);border-color:rgba(14,165,233,.3)}
-.disp-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px}
-.disp-icon{width:42px;height:42px;border-radius:12px;background:rgba(14,165,233,.12);display:flex;align-items:center;justify-content:center;font-size:20px}
-.disp-status{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--teal)}
-.disp-status::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--teal);display:inline-block}
-.disp-name{font-size:16px;font-weight:700;margin-bottom:4px}
-.disp-loc{font-size:13px;color:var(--muted)}
-.disp-actions{display:flex;gap:8px;margin-top:16px}
-.disp-actions .btn{flex:1;padding:9px;font-size:13px}
-
-/* ── Add dispenser modal ── */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
-.modal-overlay.open{display:flex}
-.modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;width:100%;max-width:420px}
-.modal h3{font-size:20px;font-weight:900;margin-bottom:24px}
-
-/* ── QR View ── */
-.qr-view{text-align:center;padding:32px}
-.qr-wrap{display:inline-block;background:#fff;padding:20px;border-radius:20px;box-shadow:0 16px 48px rgba(0,0,0,.5);margin:24px 0}
-#qr-canvas-dash{display:block}
-.qr-info{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;max-width:380px;margin:0 auto 20px;text-align:left}
-.qr-info p{font-size:13px;color:var(--muted);line-height:1.6}
-.qr-info strong{color:var(--text)}
-
-/* ── Responsive ── */
-@media(max-width:768px){
-  nav{padding:16px 20px}
-  .hero{padding:60px 20px 50px}
-  .sidebar{display:none}
-  .dash-main{width:100%}
-  .dash-content{padding:20px}
-  .dash-header{padding:16px 20px}
-}
-
-/* ── Animations ── */
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.fadein{animation:fadeUp .4s ease both}
-</style>
+<title>QR Generator Fix</title>
 </head>
 <body>
 
-<!-- ════════════════════════════════════
-     LANDING
-════════════════════════════════════ -->
-<div id="s-landing" class="screen active">
-  <nav>
-    <div class="logo">💧 Huapi<span>Alert</span></div>
-    <div class="nav-btns">
-      <button class="btn btn-ghost" onclick="go('s-login')">Ingresar</button>
-      <button class="btn btn-primary" onclick="go('s-register')">Registrarse gratis</button>
-    </div>
-  </nav>
+<h2>Generador de QR (fix aplicado)</h2>
 
-  <div class="hero">
-    <div class="badge">🚀 SaaS para distribuidoras de agua</div>
-    <h1>Tus clientes avisan<br/><em>cuando no tienen agua</em></h1>
-    <p>Generá códigos QR personalizados para cada dispensador. El cliente escanea → abre WhatsApp → te llega el aviso en segundos.</p>
-    <div class="hero-btns">
-      <button class="btn btn-primary btn-lg" onclick="go('s-register')">Empezar gratis →</button>
-      <button class="btn btn-ghost btn-lg" onclick="demo()">Ver demo</button>
-    </div>
-  </div>
-
-  <div class="steps">
-    <div class="step fadein">
-      <div class="step-num">1</div>
-      <h3>Registrate</h3>
-      <p>Creá tu cuenta, elegí tu plan y cargá tus dispensadores.</p>
-    </div>
-    <div class="step fadein">
-      <div class="step-num">2</div>
-      <h3>Generá los QRs</h3>
-      <p>El sistema genera un QR único para cada dispensador de tus clientes.</p>
-    </div>
-    <div class="step fadein">
-      <div class="step-num">3</div>
-      <h3>Imprimí y pegá</h3>
-      <p>El cliente escanea y te manda un WhatsApp automático. Listo.</p>
-    </div>
-  </div>
-
-  <div class="pricing-section">
-    <h2>Planes simples</h2>
-    <p class="sub">Empezá gratis, crecé cuando lo necesites.</p>
-    <div class="plans">
-      <div class="plan">
-        <div class="plan-name">Básico</div>
-        <div class="plan-price">$0<span>/mes</span></div>
-        <div class="plan-desc">Para empezar a probar sin costo.</div>
-        <ul class="plan-features">
-          <li>Hasta 3 dispensadores</li>
-          <li>1 número de WhatsApp</li>
-          <li>QR descargable</li>
-        </ul>
-        <button class="btn btn-outline btn-block" onclick="go('s-register')">Empezar gratis</button>
-      </div>
-      <div class="plan featured">
-        <div class="plan-badge">⭐ MÁS POPULAR</div>
-        <div class="plan-name">Pro</div>
-        <div class="plan-price">$9<span>/mes</span></div>
-        <div class="plan-desc">Para distribuidoras en crecimiento.</div>
-        <ul class="plan-features">
-          <li>Hasta 25 dispensadores</li>
-          <li>3 números de WhatsApp</li>
-          <li>QR personalizado con logo</li>
-          <li>Historial de avisos</li>
-        </ul>
-        <button class="btn btn-primary btn-block" onclick="go('s-register')">Elegir Pro</button>
-      </div>
-      <div class="plan">
-        <div class="plan-name">Empresa</div>
-        <div class="plan-price">$29<span>/mes</span></div>
-        <div class="plan-desc">Para distribuidoras grandes.</div>
-        <ul class="plan-features">
-          <li>Dispensadores ilimitados</li>
-          <li>WhatsApp ilimitados</li>
-          <li>Multi-sucursal</li>
-          <li>Soporte prioritario</li>
-        </ul>
-        <button class="btn btn-outline btn-block" onclick="go('s-register')">Elegir Empresa</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════
-     REGISTER
-════════════════════════════════════ -->
-<div id="s-register" class="screen">
-  <nav>
-    <div class="logo">💧 Huapi<span>Alert</span></div>
-    <button class="btn btn-ghost" onclick="go('s-landing')">← Volver</button>
-  </nav>
-  <div class="auth-wrap">
-    <div class="auth-card fadein">
-      <h2>Crear cuenta</h2>
-      <p class="sub">Empezá gratis, sin tarjeta de crédito.</p>
-
-      <div class="err" id="reg-err"></div>
-
-      <div class="field">
-        <label>Nombre de tu empresa / negocio</label>
-        <input id="reg-biz" type="text" placeholder="Ej: Distribuidora Huapi"/>
-      </div>
-      <div class="field">
-        <label>Tu nombre</label>
-        <input id="reg-name" type="text" placeholder="Ej: Carlos López"/>
-      </div>
-      <div class="field">
-        <label>Email</label>
-        <input id="reg-email" type="email" placeholder="carlos@empresa.com"/>
-      </div>
-      <div class="field">
-        <label>WhatsApp (con código de país, sin +)</label>
-        <input id="reg-phone" type="tel" placeholder="Ej: 5493515001122"/>
-      </div>
-      <div class="field">
-        <label>Contraseña</label>
-        <input id="reg-pass" type="password" placeholder="Mínimo 6 caracteres"/>
-      </div>
-
-      <div class="field">
-        <label>Plan</label>
-        <div class="plan-select">
-          <div class="plan-opt selected" onclick="selectPlan(this,'free')">
-            <span class="pname">Básico</span>
-            <span class="pprice">$0</span>
-          </div>
-          <div class="plan-opt" onclick="selectPlan(this,'pro')">
-            <span class="pname">Pro</span>
-            <span class="pprice">$9</span>
-          </div>
-          <div class="plan-opt" onclick="selectPlan(this,'empresa')">
-            <span class="pname">Empresa</span>
-            <span class="pprice">$29</span>
-          </div>
-        </div>
-      </div>
-
-      <button class="btn btn-primary btn-block btn-lg" onclick="register()">Crear mi cuenta →</button>
-      <p class="auth-switch">¿Ya tenés cuenta? <a onclick="go('s-login')">Ingresar</a></p>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════
-     LOGIN
-════════════════════════════════════ -->
-<div id="s-login" class="screen">
-  <nav>
-    <div class="logo">💧 Huapi<span>Alert</span></div>
-    <button class="btn btn-ghost" onclick="go('s-landing')">← Volver</button>
-  </nav>
-  <div class="auth-wrap">
-    <div class="auth-card fadein">
-      <h2>Bienvenido de vuelta</h2>
-      <p class="sub">Ingresá a tu cuenta para gestionar tus dispensadores.</p>
-
-      <div class="err" id="login-err"></div>
-
-      <div class="field">
-        <label>Email</label>
-        <input id="login-email" type="email" placeholder="tu@email.com"/>
-      </div>
-      <div class="field">
-        <label>Contraseña</label>
-        <input id="login-pass" type="password" placeholder="Tu contraseña"/>
-      </div>
-
-      <button class="btn btn-primary btn-block btn-lg" onclick="login()">Ingresar →</button>
-      <p class="auth-switch">¿No tenés cuenta? <a onclick="go('s-register')">Registrarse gratis</a></p>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════
-     DASHBOARD
-════════════════════════════════════ -->
-<div id="s-dashboard" class="screen">
-  <div class="dash-layout">
-    <aside class="sidebar">
-      <div class="sidebar-logo">💧 Huapi<span>Alert</span></div>
-      <div class="sidebar-menu">
-        <div class="sidebar-item active" onclick="dashSection('home')">
-          <span class="icon">🏠</span> Inicio
-        </div>
-        <div class="sidebar-item" onclick="dashSection('dispensers')">
-          <span class="icon">💧</span> Dispensadores
-        </div>
-        <div class="sidebar-item" onclick="dashSection('qrs')">
-          <span class="icon">📱</span> Mis QRs
-        </div>
-      </div>
-      <div class="sidebar-bottom">
-        <div class="user-badge">
-          <div class="user-avatar" id="dash-avatar">?</div>
-          <div class="user-info">
-            <div class="uname" id="dash-uname">—</div>
-            <div class="uemail" id="dash-uemail">—</div>
-          </div>
-        </div>
-        <button class="btn btn-ghost btn-block" style="margin-top:8px;font-size:13px" onclick="logout()">Cerrar sesión</button>
-      </div>
-    </aside>
-
-    <main class="dash-main">
-      <!-- HOME SECTION -->
-      <div id="sec-home">
-        <div class="dash-header">
-          <h2 id="dash-greeting">Buen día 👋</h2>
-          <button class="btn btn-primary" onclick="openModal()">+ Nuevo dispensador</button>
-        </div>
-        <div class="dash-content">
-          <div class="stats">
-            <div class="stat">
-              <div class="stat-val" id="stat-disps">0</div>
-              <div class="stat-label">💧 Dispensadores</div>
-            </div>
-            <div class="stat">
-              <div class="stat-val" id="stat-plan">—</div>
-              <div class="stat-label">📦 Plan activo</div>
-            </div>
-            <div class="stat">
-              <div class="stat-val" id="stat-phone">—</div>
-              <div class="stat-label">📱 WhatsApp configurado</div>
-            </div>
-          </div>
-          <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;color:var(--muted)">TUS DISPENSADORES</h3>
-          <div class="disp-grid" id="disp-grid-home"></div>
-          <div id="no-disps" style="display:none;text-align:center;padding:60px 20px;color:var(--muted)">
-            <div style="font-size:48px;margin-bottom:16px">💧</div>
-            <p style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px">No tenés dispensadores todavía</p>
-            <p style="font-size:14px;margin-bottom:24px">Agregá el primero para generar tu código QR</p>
-            <button class="btn btn-primary" onclick="openModal()">+ Agregar dispensador</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- DISPENSERS SECTION -->
-      <div id="sec-dispensers" style="display:none">
-        <div class="dash-header">
-          <h2>Dispensadores</h2>
-          <button class="btn btn-primary" onclick="openModal()">+ Nuevo dispensador</button>
-        </div>
-        <div class="dash-content">
-          <div class="disp-grid" id="disp-grid-all"></div>
-        </div>
-      </div>
-
-      <!-- QR SECTION -->
-      <div id="sec-qrs" style="display:none">
-        <div class="dash-header">
-          <h2 id="qr-title">Código QR</h2>
-          <button class="btn btn-ghost" onclick="dashSection('home')">← Volver</button>
-        </div>
-        <div class="dash-content">
-          <div class="qr-view">
-            <div class="qr-info">
-              <p><strong id="qr-disp-name">—</strong></p>
-              <p id="qr-disp-loc" style="margin-top:4px"></p>
-              <p style="margin-top:12px">Al escanear este QR, el cliente verá un botón que abre WhatsApp con el mensaje listo para enviarte.</p>
-            </div>
-            <div class="qr-wrap">
-              <canvas id="qr-canvas-dash"></canvas>
-            </div>
-            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-              <button class="btn btn-primary" onclick="downloadQR()">⬇ Descargar QR</button>
-              <button class="btn btn-ghost" onclick="printQR()">🖨 Imprimir</button>
-            </div>
-            <p style="color:var(--muted);font-size:12px;margin-top:20px">Imprimí este QR y pegalo en el dispensador de tu cliente.</p>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════
-     MODAL - Agregar dispensador
-════════════════════════════════════ -->
-<div class="modal-overlay" id="modal-add">
-  <div class="modal fadein">
-    <h3>💧 Nuevo dispensador</h3>
-    <div class="field">
-      <label>Nombre del dispensador</label>
-      <input id="m-name" type="text" placeholder="Ej: Oficina Piso 2, Cliente García..."/>
-    </div>
-    <div class="field">
-      <label>Dirección / Ubicación</label>
-      <input id="m-loc" type="text" placeholder="Ej: Av. Colón 1234, Córdoba"/>
-    </div>
-    <div style="display:flex;gap:10px;margin-top:8px">
-      <button class="btn btn-ghost" style="flex:1" onclick="closeModal()">Cancelar</button>
-      <button class="btn btn-primary" style="flex:2" onclick="addDispenser()">Agregar y generar QR</button>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════
-     CLIENTE (vista pública via QR)
-════════════════════════════════════ -->
-<div id="s-cliente" class="screen">
-  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px;background:linear-gradient(135deg,#04111f,#071828)">
-    <div style="text-align:center;max-width:360px;width:100%">
-      <div style="font-size:60px;margin-bottom:16px;filter:drop-shadow(0 0 20px rgba(14,165,233,.5))">💧</div>
-      <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--blue);margin-bottom:8px">HUAPI ALERT</div>
-      <h2 style="font-size:26px;font-weight:900;margin-bottom:8px">¡Se acabó el agua!</h2>
-      <p class="loc" id="cli-loc" style="color:var(--muted);font-size:14px;margin-bottom:24px"></p>
-      <p style="color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:32px">
-        Tocá el botón para avisar al distribuidor por WhatsApp. Te llega el pedido lo antes posible.
-      </p>
-      <a id="cli-wa-link" href="#" target="_blank"
-        style="display:block;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;border-radius:16px;padding:18px;font-size:17px;font-weight:900;text-decoration:none;box-shadow:0 8px 32px rgba(37,211,102,.4);letter-spacing:-.3px">
-        💬 Enviar aviso por WhatsApp
-      </a>
-      <p style="color:#1a3a2a;font-size:11px;margin-top:16px">Tu mensaje llega directo al distribuidor</p>
-    </div>
-  </div>
-</div>
-
+<canvas id="qr-canvas"></canvas>
+<br><br>
+<button onclick="generate()">Generar QR</button>
 
 <script>
+// QR LIB (simplificada ya incluida en tu código original)
+
 // ══════════════════════════════════════════════
 //  INLINE QR LIBRARY (sin dependencias externas)
 // ══════════════════════════════════════════════
@@ -504,7 +25,7 @@ var qrcode=function(){function a(b,c){this.typeNumber=b,this.errorCorrectLevel=c
 // ══════════════════════════════════════════════
 function drawQR(canvasId, text, size){
   size = size || 240;
-  var qr = new qrcode(0, 1);
+  var qr = new qrcode(0, 'L');
   qr.addData(text);
   qr.make();
   var c   = document.getElementById(canvasId);
@@ -782,6 +303,46 @@ function demo(){
 document.getElementById('modal-add').addEventListener('click',function(e){
   if(e.target===this) closeModal();
 });
+
+
+// FIXED DRAW FUNCTION
+function drawQR(canvasId, text, size){
+  var c = document.getElementById(canvasId);
+  if(!c){
+    console.error("Canvas no encontrado");
+    return;
+  }
+
+  size = size || 240;
+
+  var qr = new qrcode(0, 'L');
+  qr.addData(text);
+  qr.make();
+
+  var cnt = qr.getModuleCount();
+  var cel = Math.floor(size/cnt);
+
+  c.width = c.height = cel*cnt;
+
+  var ctx = c.getContext('2d');
+  ctx.fillStyle='#ffffff';
+  ctx.fillRect(0,0,c.width,c.height);
+
+  ctx.fillStyle='#000000';
+  for(var r=0;r<cnt;r++){
+    for(var cc=0;cc<cnt;cc++){
+      if(qr.isDark(r,cc)){
+        ctx.fillRect(cc*cel,r*cel,cel,cel);
+      }
+    }
+  }
+}
+
+// DEMO
+function generate(){
+  drawQR('qr-canvas', 'https://example.com', 250);
+}
 </script>
+
 </body>
 </html>
